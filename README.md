@@ -23,6 +23,7 @@ It's a website showing multiple React components. The style and content of the c
     - `image`: the img url of the person. Type: String
     - `logo`: the company's logo. Type: JSX element.
 ## Things learned
+  ### General
   - <details>
       <summary></summary>
 
@@ -84,4 +85,15 @@ It's a website showing multiple React components. The style and content of the c
         )
       }
       ```
+    </details>
+  ### Solving Prop Drilling
+  - **What is Prop Drilling?** It's when you has to pass a property to a React Component, only to pass it to the child, or grandchild, etc. Depending of the sequence of levels you have to pass through, and the quantity of properties, you can end up with a lot of properties that visually overcharge your code.
+  - **How to solve Prop Drilling**
+    - <details>
+      <summary><b>Compound Components</b></summary>
+      
+      - It's a group of components that are created with the intention of working together, much like some HTML elements (like `<ul>` and `<li>`, or `<table>` and `<tr>`).
+
     </details> 
+    - **Compound Components:** 
+      - dasdasdasdasdasdas
