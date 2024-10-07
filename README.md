@@ -58,17 +58,20 @@ It's a website showing multiple React components. The style and content of the c
       ```
     </details> 
   - <details>
-      <summary>Using the restructuring method, along with the rest and spread operator, you can let your user pass default HTML properties to the elements inside your component</summary>
+      <summary>Using the restructuring method, along with the rest and spread operators, you can target all of the properties that you didn't expect directly in your code, like the direct styling of your user, for example.</summary>
 
       ```JSX
       // *** In App.jsx ***
       export default function App(){
-        return (<ReactComponent prop1="value1" prop2="value2" className=""> ReactComponent content </ReactComponent>)
+        return (<ReactComponent prop1="value1" prop2="value2" className="react-component-content" style={{color:"blue"}} /* ...Other properties */> ReactComponent content </ReactComponent>)
       }
-      
-      export default function ReactComponent({propOne, propTwo, children}){
+
+      // *** In ReactComponent.jsx ***
+      export default function ReactComponent({propOne, propTwo, className, children, ...rest}){ // style, and all of the other properties will be stored in "rest"
         // *** Logic with propOne and PropTwo ***
-        return children
+        return (
+          <div className={className} {...rest}>{children}</div> // all the values of the properties inside rest will be written there, separately 
+        )
       }
       ```
     </details> 
