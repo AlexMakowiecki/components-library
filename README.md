@@ -10,7 +10,7 @@ It's a website showing multiple React components. The style and content of the c
     - `children`: the content inside the box, below the title
     - `title`: the main title of the box. Type: String
     - `type`: a predefined list of styles, trying to confirm the type of message of the box. Possible values: ["success", "warning", "error", "info"]
-  - **Card:** a box with a configurable icon, and complete configurable content.
+  - **Card:** a box with a complete configurable icon and content.
     - `children`: the content inside the box.
     - `icon`: the icon that will be located on the top center of the box. Type: JSX element.
     - `iconColorBackground`: the color background of the icon container. Type: String
@@ -22,3 +22,27 @@ It's a website showing multiple React components. The style and content of the c
     - `role`: their role inside the company. Type: String
     - `image`: the img url of the person. Type: String
     - `logo`: the company's logo. Type: JSX element.
+## Things learned
+  - <details>
+      <summary></summary>
+
+      ```JSX
+      ```
+    </details>
+  - <details>
+      <summary>You can pass children to React components, that will be the content of that React component. The syntax is much like HTML, you write the content inside the React component tags</summary>
+
+      ```JSX
+        <ReactComponent>
+          <div>Content of the React Component</div>
+        </ReactComponent>
+      ```
+    </details>    
+
+  - You can then access the children of the React component through the children property of your props argument.
+    - ```JSX
+      export default function ReactComponent(props){
+        return props.children // ==> <div>Content of the React Component</div>
+      }
+      ```
+  -       
