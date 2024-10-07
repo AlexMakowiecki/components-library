@@ -99,7 +99,8 @@ It's a website showing multiple React components. The style and content of the c
         // ** Suppose you have a Menu, MenuButton and a MenuItem component **
         export default function App(){
           return (
-            <Menu> // buttonProp and itemProp passed directly to the children. You avoid passing it to the Menu first
+            /* buttonProp and itemProp passed directly to the children. You avoid passing it to the Menu first */
+            <Menu> 
               <MenuButton buttonProp="value"> Menu </MenuButton>
               <MenuItem itemProp="value"> Item 1 </MenuItem>
               <MenuItem itemProp="value"> Item 2 </MenuItem>
@@ -108,5 +109,6 @@ It's a website showing multiple React components. The style and content of the c
           )
         }
         ```
+      -   
     </details> 
 
