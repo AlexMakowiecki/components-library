@@ -62,8 +62,10 @@ It's a website showing multiple React components. The style and content of the c
         Using the restructuring method, along with the rest and spread operators, you can target all of the properties that you didn't expect directly in your code, like the direct styling of your user, for example.
       </summary>
       </br>
+
     
-      > ⚠️**Warning:** Giving the freedom to pass any property to your user can cause it to override properties that you settled inside your React Component, like the className property.
+      > ⚠️ **Warning** </br> 
+      > Giving the freedom to pass any property to your user can cause it to override properties that you settled inside your React Component, like the className property.
       > You will have to write your code taking this into account. For className you can use the library "classnames" to add the content of your className and your user className together.
 
       </br>
