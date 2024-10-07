@@ -38,11 +38,37 @@ It's a website showing multiple React components. The style and content of the c
         </ReactComponent>
       ```
     </details>    
+  - <details>
+      <summary>You can then access the children of the React component through the children property of your props argument.</summary>
 
-  - You can then access the children of the React component through the children property of your props argument.
-    - ```JSX
+      ```JSX
       export default function ReactComponent(props){
         return props.children // ==> <div>Content of the React Component</div>
       }
       ```
-  -       
+    </details>
+  - <details>
+      <summary>You can destructure your props argument to work better with its properties</summary>
+
+      ```JSX
+      export default function ReactComponent({propOne, propTwo, children}){
+        // *** Logic with propOne and PropTwo ***
+        return children
+      }
+      ```
+    </details> 
+  - <details>
+      <summary>Using the restructuring method, along with the rest and spread operator, you can let your user pass default HTML properties to the elements inside your component</summary>
+
+      ```JSX
+      // *** In App.jsx ***
+      export default function App(){
+        return (<ReactComponent prop1="value1" prop2="value2" className=""> ReactComponent content </ReactComponent>)
+      }
+      
+      export default function ReactComponent({propOne, propTwo, children}){
+        // *** Logic with propOne and PropTwo ***
+        return children
+      }
+      ```
+    </details> 
