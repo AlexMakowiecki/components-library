@@ -87,7 +87,7 @@ It's a website showing multiple React components. The style and content of the c
       ```
     </details>
   ### Solving Prop Drilling
-  - **What is Prop Drilling?** It's when you has to pass a property to a React Component, only to pass it to the child, or grandchild, etc. Depending of the sequence of levels you have to pass through, and the quantity of properties, you can end up with a lot of properties that visually overcharge your code.
+  - **What is Prop Drilling?** It's when you has to pass a property to a React Component only to pass it to the child, or grandchild, etc. Depending of the sequence of levels you have to pass through, and the quantity of properties, you can end up with a lot of properties that visually overcharge your code.
   - **How to solve Prop Drilling**
     - <details>
       <summary><b>Compound Components</b></summary>
@@ -109,6 +109,29 @@ It's a website showing multiple React components. The style and content of the c
           )
         }
         ```
-      -   
+      - You can create an auxiliar js file to group all of the child components inside the main one and access them in the same way you access keys inside objects, making the relation more visible.
+      - ```JSX
+        /* Auxiliar JS, named index.js */
+        import Menu from "menuLocation"
+        import MenuItem from "menuItemLocation"
+        import MenuButton from "menuButtonLocation"
+
+        Menu.Item = MenuItem
+        Menu.Button = MenuButton
+
+        export default Menu
+
+        /* App.jsx */
+        export default function App(){
+          return (
+            <Menu> 
+              <Menu.Button buttonProp="value"> Menu </MenuButton>
+              <Menu.Item itemProp="value"> Item 1 </MenuItem>
+              <Menu.Item itemProp="value"> Item 2 </MenuItem>
+              <Menu.Item itemProp="value"> Item 3 </MenuItem>
+            </Menu>
+          )
+        }
+        ```
     </details> 
 
