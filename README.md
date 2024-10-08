@@ -95,43 +95,44 @@ It's a website showing multiple React components. The style and content of the c
       - It's a group of components that are created with the intention of working together, much like some HTML elements (like `<ul>` and `<li>`, or `<table>` and `<tr>`).
       - They are written the same as those HTML elements, with a general component as the container, and the children for certain roles.
       - This reduces prop drilling as you can pass the property directly to the children when you are writing them.
-      - ```JSX
-        // ** Suppose you have a Menu, MenuButton and a MenuItem component **
-        export default function App(){
-          return (
-            /* buttonProp and itemProp passed directly to the children. You avoid passing it to the Menu first */
-            <Menu> 
-              <MenuButton buttonProp="value"> Menu </MenuButton>
-              <MenuItem itemProp="value"> Item 1 </MenuItem>
-              <MenuItem itemProp="value"> Item 2 </MenuItem>
-              <MenuItem itemProp="value"> Item 3 </MenuItem>
-            </Menu>
-          )
-        }
-        ```
+        - ```JSX
+          // ** Suppose you have a Menu, MenuButton and a MenuItem component **
+          export default function App(){
+            return (
+              /* buttonProp and itemProp passed directly to the children. You avoid passing it to the Menu first */
+              <Menu> 
+                <MenuButton buttonProp="value"> Menu </MenuButton>
+                <MenuItem itemProp="value"> Item 1 </MenuItem>
+                <MenuItem itemProp="value"> Item 2 </MenuItem>
+                <MenuItem itemProp="value"> Item 3 </MenuItem>
+              </Menu>
+            )
+          }
+          ```
       - You can create an auxiliar js file to group all of the child components inside the main one and access them in the same way you access keys inside objects, making the relation more visible.
-      - ```JSX
-        /* Auxiliar JS, named index.js */
-        import Menu from "menuLocation"
-        import MenuItem from "menuItemLocation"
-        import MenuButton from "menuButtonLocation"
-
-        Menu.Item = MenuItem
-        Menu.Button = MenuButton
-
-        export default Menu
-
-        /* App.jsx */
-        export default function App(){
-          return (
-            <Menu> 
-              <Menu.Button buttonProp="value"> Menu </MenuButton>
-              <Menu.Item itemProp="value"> Item 1 </MenuItem>
-              <Menu.Item itemProp="value"> Item 2 </MenuItem>
-              <Menu.Item itemProp="value"> Item 3 </MenuItem>
-            </Menu>
-          )
-        }
+        - ```JSX
+          /* Auxiliar JS, named index.js */
+          import Menu from "menuLocation"
+          import MenuItem from "menuItemLocation"
+          import MenuButton from "menuButtonLocation"
+  
+          Menu.Item = MenuItem
+          Menu.Button = MenuButton
+  
+          export default Menu
+  
+          /* App.jsx */
+          import Menu from "auxiliarJSLocation"
+          export default function App(){
+            return (
+              <Menu> 
+                <Menu.Button buttonProp="value"> Menu </MenuButton>
+                <Menu.Item itemProp="value"> Item 1 </MenuItem>
+                <Menu.Item itemProp="value"> Item 2 </MenuItem>
+                <Menu.Item itemProp="value"> Item 3 </MenuItem>
+              </Menu>
+            )
+          }
         ```
     </details> 
 
