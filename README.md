@@ -25,12 +25,6 @@ It's a website showing multiple React components. The style and content of the c
 ## Things learned
   ### General
   - <details>
-      <summary></summary>
-
-      ```JSX
-      ```
-    </details>
-  - <details>
       <summary>You can pass children to React components, that will be the content of that React component. The syntax is much like HTML, you write the content inside the React component tags</summary>
 
       ```JSX
@@ -85,6 +79,68 @@ It's a website showing multiple React components. The style and content of the c
         )
       }
       ```
+  - <details>
+      <summary>You can use <b>React.useRef()</b> to manage variables that you don't want to reset every time the component re-render, and you don't want that variables to re-render the component each time they change, like when using State. </summary>
+
+      ```JSX
+      export default function ReactComponent(){
+        const refExample = React.useRef("value1")
+        // "value1" and all other values inside the parenthesis will be stored inside a key named "current"
+        console.log(refExample.current) // "value1"
+        return (
+          <div className="react-component"></div>
+        )
+      }
+      ```
+    </details> 
+  - <details>
+      <summary> You can pass the content you want your component to render through his properties (like a property "render", for example).</summary>
+
+      - Normally passed as a function that return the content that you want to render
+      - Other way to encounter this is with the function that render the content passed as a child
+      ```JSX
+      /* App.jsx */
+      export default function App(){
+        return (
+          <firstReactComponent render={() => <div>Hello World</div>}/>
+          <secondReactComponent>
+            {() => <div>Hello World</div>}
+          </secondReactComponent>
+        )
+      }
+      /* First React Component */
+      export default function FirstReactComponent({render}){
+        return render() // <div>Hello World</div>
+      }
+      /* Second React Component */
+      export default function SecondReactComponent({children}){
+        return children() // <div>Hello World</div>
+      }
+      ```
+    </details>
+  - <details>
+      <summary> In the same way you create libraries with Javascript, you can create Custom Hooks for React. The only difference is that Custom Hooks use React Hooks </summary>
+      
+      ```JSX
+      /* Custom Hook */
+      // This hook skip the first call of React.useEffect
+      export default function useEffectOnUpdate(callback, listeners){
+        const firstRender = React.useRef(true)
+        React.useEffect(() => {
+          if (firstRender.current) firstRender.current = false
+          else callback() 
+        }, listeners)
+      }
+      /* React Component */
+      import useEffectOnUpdate from "customHookLocation"
+      export default function ReactComponent(children){
+        const {stateExample, setStateExample} = React.useState("value")
+        useEffectOnUpdate(() => {
+          console.log("hello world")
+        }, [stateExample])
+        return children 
+      }
+      ```
     </details>
   ### Solving Prop Drilling
   - **What is Prop Drilling?** It's when you has to pass a property to a React Component only to pass it to the child, or grandchild, etc. Depending of the sequence of levels you have to pass through, and the quantity of properties, you can end up with a lot of properties that visually overcharge your code.
@@ -134,5 +190,79 @@ It's a website showing multiple React components. The style and content of the c
             )
           }
         ```
+    </details>
+  - <details>
+      <summary><b>Implicit State</b></summary>
+
+      - It's a method that let the children of a component interact with a state without the need to pass that state to them directly.
+      - Or viewed in another way, it's a state that can be accessed and modified by a group of elements without the need to pass it to each one of them directly.
+      - There are 2 ways to use **Implicit State**:
+        - <details>
+            <summary>Using <b>React.Children</b> and <b>React.cloneElement()</b></summary>
+
+            - **React.children** is a utility that lets you handle the **direct** children of a component as if they were handling an array.
+            - **React.cloneElement()** is another utility that clones an element, but it also let you inject additional properties to that element.
+            - With this utilities, you can map over all the direct children of a component, and inject the properties you want to pass to them.
+            - This method is not actually the preferred one to handle Implicit State, but it can be seen in some codes. 
+            - ```JSX
+              export default function ReactComponent(children){
+                const [stateExample, setStateExample] = React.useState(false)
+                function toggleState() {
+                  setStateExample(prevStateExample => !prevStateExample)
+                }
+                return (
+                  React.children(children, (child) => {
+                    return React.cloneElement(child, {stateExample, toggleState})
+                  })
+                )
+              }
+              /* React.Children receives the array you want to work with as 1st parameter, and the function you want to run for each element as 2nd*/
+              /* React.cloneElement() receives the element you want to copy as 1st parameter, and an object with the properties you want to add as 2nd */
+              ```
+          </details>
+        - <details>
+            <summary> <b>Context</b> </summary>
+            
+            - It's a React utility that lets you have a container/parent, with all the values you want to share, and gives the freedom to the children of that parent to access or modify those values.
+            - First steps with Context:
+              1. outside of your main function, create the container element using `React.createContext()` and assign it to a variable. Will be calling it "exampleContext".
+              2. Write exampleContext down in the same way you write components on JSX syntax (<exampleContext></exampleContext>), but accessing a functionality inside it called "Provider" (<exampleContext.Provider></exampleContext.Provider>).
+              3. Write the values to be shared inside the property "values" of exampleContext.
+              4. Put the elements that you want to access those values inside exampleContext.
+              5. Export exampleContext
+              ```JSX
+                const exampleContext = React.createContext()
+                export default function ReactComponent (children){
+                  const [exampleState, setExampleState] = React.useState(false)
+                  function toggleState(){
+                    setExampleState(prevExampleState => !prevExampleState)
+                  }
+                  return (
+                    <exampleContext.Provider values={{exampleState, toggleState}}>
+                      { children }
+                    </exampleContext.Provider>
+                  )
+                }
+                export { exampleContext }
+              ```
+            - How to access and modify the Context values
+              1. Import the variable with Context
+              2. Use React.useContext() and pass the variable with Context as a parameter. 
+              3. Store the data returned from React.useContext() in another variable. There will be stored all of the variables you passed to the provider.
+              ```JSX
+              import { exampleContext } from "exampleContextLocation"
+              export default function AnotherReactComponent(){
+                const contextProperties = React.useContext(exampleContext)
+                // Or destructuring the object
+                const { exampleState, toggleState } = React.useContext(exampleContext)
+                return (
+                  <div className="another-react-component" onClick={toggleState}>
+                    { exampleState }
+                  </div>
+                )
+                /* The React component has to be a child of the context Provider */
+              }
+              ```
+          </details>        
     </details> 
 
